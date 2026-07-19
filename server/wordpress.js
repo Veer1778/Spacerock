@@ -77,7 +77,10 @@ function postAuthor(post) {
   const a = authors.find((x) => x.id === post.author) || authors[0];
   return {
     name: a?.name || "SpaceRock",
+    slug: a?.slug || null,
     avatar: a?.avatar_urls?.["48"] || a?.avatar_urls?.["96"] || null,
+    // Ultimate Member profile URL — the account system serves user pages at /user/<slug>/
+    profileUrl: a?.slug ? `https://spacerock.club/user/${a.slug}/` : null,
   };
 }
 

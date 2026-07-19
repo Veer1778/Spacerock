@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 const NAV = [
   { label: "Home", href: "#/" },
   { label: "AI", href: "#/category/ai" },
@@ -6,6 +7,14 @@ const NAV = [
   { label: "Physics", href: "#/category/physics" },
   { label: "About", href: "#/about" },
 ];
+
+// Ultimate Member endpoints on your WordPress. Nextend Social Login integrates
+// into the same UM Login form — the Google button appears there.
+const UM = {
+  login: "https://spacerock.club/login/",
+  register: "https://spacerock.club/register/",
+  account: "https://spacerock.club/account/",
+};
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -31,6 +40,23 @@ export default function Header() {
               {item.label}
             </a>
           ))}
+
+          <div className="header__auth">
+            <a
+              className="header__link header__link--auth"
+              href={UM.login}
+              onClick={() => setOpen(false)}
+            >
+              Log in
+            </a>
+            <a
+              className="header__link header__cta"
+              href={UM.register}
+              onClick={() => setOpen(false)}
+            >
+              Sign up
+            </a>
+          </div>
         </nav>
 
         <button
@@ -44,7 +70,6 @@ export default function Header() {
           <span />
         </button>
       </div>
-      <hr className="header__rule" />
     </header>
   );
 }

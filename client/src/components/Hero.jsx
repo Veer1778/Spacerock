@@ -37,7 +37,7 @@ export default function Hero({ topics, activeTopic, onTopicSelect }) {
         <Starburst />
       </div>
       <p className="masthead__sub">
-        AI &middot; Physics &middot; Space &mdash; filed weekly from low orbit.
+        AI &middot; Physics &middot; Tech &mdash; filed weekly from low orbit.
       </p>
 
       <div className="topic-tray" role="group" aria-label="Filter stories by tag">

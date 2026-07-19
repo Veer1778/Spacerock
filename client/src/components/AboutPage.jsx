@@ -14,12 +14,6 @@ const COMMANDS = {
     "FREQUENCY  Weekly.",
     "SIGNAL     Strong.",
   ],
-  stack: [
-    "FRONTEND   React + Vite",
-    "BACKEND    Node + Express",
-    "CMS        WordPress, headless",
-    "DESIGN     Neobrutalism, dark",
-  ],
   principles: [
     "01  No clickbait.",
     "02  Fact first.",
@@ -119,21 +113,21 @@ const TEAM = [
     name: "Veer Solanki",
     role: "Founder · Writer · Builder",
     bio: "Designs it, codes it, writes it. Too many tabs open at all times.",
-    img: "/images/team-veer.jpg",
+    img: "https://spacerock.club/wp-content/uploads/2026/07/IMG20260528192932-scaled.jpg",
     tilt: -2,
   },
   {
     name: "Nitai Garg",
     role: "Writer · Research",
     bio: "Chases the source until it talks. Allergic to secondhand hype.",
-    img: "/images/team-nitai.jpg",
+    img: "https://spacerock.club/wp-content/uploads/2026/07/WhatsApp-Image-2025-11-18-at-21.58.30_14d03386.jpg",
     tilt: 2,
   },
   {
     name: "Aarush Yadav",
     role: "Writer · Technology",
     bio: "Breaks things on purpose so the explainer is honest.",
-    img: "/images/team-aarush.jpg",
+    img: "https://spacerock.club/wp-content/uploads/2026/07/WhatsApp-Image-2025-11-18-at-21.15.30_c9b4152c.jpg",
     tilt: -1,
   },
 ];
@@ -143,15 +137,6 @@ const PRINCIPLES = [
   { icon: "✓", title: "Fact first", desc: "Every claim gets sourced before it gets published. Corrections are public." },
   { icon: "💬", title: "Explain, don't confuse", desc: "If the reader needs a glossary, the draft goes back for another pass." },
   { icon: "◆", title: "Quality over speed", desc: "We'd rather be right on Saturday than wrong on Tuesday." },
-];
-
-const JOURNEY = [
-  { year: "2025", icon: "🚀", text: "SpaceRock launches with a WordPress blog and one very stubborn founder." },
-  { year: "2026", icon: "🌐", text: "AI coverage expands — model launches, safety fights, the works." },
-  { year: "2026", icon: "⚛", text: "Physics Weekly begins. The universe files its first column." },
-  { year: "2026", icon: "🖥", text: "The site goes headless: React front, WordPress engine." },
-  { year: "2026", icon: "🪐", text: "The crew grows to three writers." },
-  { year: "NEXT", icon: "✦", text: "The future is the next frontier. We'll be there early." },
 ];
 
 function initials(name) {
@@ -202,9 +187,9 @@ export default function AboutPage() {
         <section>
           <span className="ab-label">By the numbers</span>
           <div className="ab-stats">
-            <Stat to={120} suffix="+" label="Articles published" />
-            <Stat to={4} label="Core topics" />
-            <Stat to={52} label="Issues a year" />
+            <Stat to={30} suffix="+" label="Articles published" />
+            <Stat to={3} label="Core topics" />
+            <Stat to={331} label="Coffee cups consumed" />
             <div className="ab-stat">
               <strong>∞</strong>
               <span>Curiosity level</span>
@@ -257,29 +242,7 @@ export default function AboutPage() {
                   <span aria-hidden="true">{p.icon}</span>
                   <strong>{p.title}</strong>
                 </div>
-                <p className="ab-principle__desc">{p.desc}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-      </Reveal>
-
-      {/* ---------- Journey (scrollable) ---------- */}
-      <Reveal>
-        <section>
-          <div className="ab-journey-head">
-            <span className="ab-label">Our journey</span>
-            <div className="section-head__nav">
-              <button className="tray-arrow" aria-label="Scroll back" onClick={() => scrollJourney(-1)}>←</button>
-              <button className="tray-arrow" aria-label="Scroll forward" onClick={() => scrollJourney(1)}>→</button>
-            </div>
-          </div>
-          <div className="ab-journey" ref={journeyRef}>
-            {JOURNEY.map((j, i) => (
-              <div key={i} className="ab-stop">
-                <strong className="ab-stop__year">{j.year}</strong>
-                <span className="ab-stop__icon" aria-hidden="true">{j.icon}</span>
-                <p>{j.text}</p>
+                <p>{p.desc}</p>
               </div>
             ))}
           </div>

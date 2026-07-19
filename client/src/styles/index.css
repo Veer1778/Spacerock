@@ -2210,3 +2210,158 @@ a:hover > .thumb img,
     align-items: flex-start;
   }
 }
+/* ============================================================
+   Fix: chip on dark panel (Copy link etc.)
+   Black bg on a black-ish paper looks invisible — flip to purple.
+   ============================================================ */
+.chip--action {
+  background: var(--purple);
+  color: var(--white);
+  border-color: var(--white);
+}
+
+.chip--action:hover {
+  background: var(--white);
+  color: var(--black);
+  box-shadow: 3px 4px 0 var(--purple);
+}
+
+/* ============================================================
+   Twitter / X embeds in article body
+   ============================================================ */
+.prose .twitter-tweet,
+.prose .wp-block-embed-twitter,
+.prose .wp-block-embed__wrapper {
+  margin: 24px auto !important;
+  max-width: 550px !important;
+  width: 100% !important;
+}
+
+.prose .twitter-tweet {
+  border: var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+  background: var(--panel);
+  padding: 8px;
+}
+
+/* Placeholder styling before widgets.js hydrates the blockquote */
+.prose blockquote.twitter-tweet {
+  font-family: var(--font-body);
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  padding: 20px;
+}
+
+.prose blockquote.twitter-tweet a {
+  color: var(--purple-soft);
+  text-decoration: underline;
+}
+
+/* YouTube / Vimeo / other WP embeds */
+.prose .wp-block-embed {
+  margin: 24px 0;
+}
+
+.prose .wp-block-embed iframe {
+  width: 100% !important;
+  aspect-ratio: 16 / 9;
+  height: auto !important;
+  border: var(--border);
+  border-radius: var(--radius-sm);
+}
+
+/* Instagram embed */
+.prose .instagram-media {
+  margin: 24px auto !important;
+  border-radius: var(--radius-sm) !important;
+}
+
+/* ============================================================
+   Author link → Ultimate Member profile
+   ============================================================ */
+.post__author {
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s var(--ease-pop);
+}
+
+.post__author:hover {
+  color: var(--purple-soft);
+  transform: translateY(-1px);
+}
+
+/* ============================================================
+   Header auth buttons
+   ============================================================ */
+.header__auth {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 8px;
+  padding-left: 12px;
+  border-left: 2px dashed rgba(255, 255, 255, 0.25);
+}
+
+.header__link--auth {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.header__link--auth:hover {
+  background: transparent;
+  border-color: var(--purple-soft);
+  color: var(--white);
+}
+
+.header__cta {
+  background: var(--purple);
+  border-color: var(--white) !important;
+  color: var(--white);
+  box-shadow: 3px 3px 0 var(--white);
+}
+
+.header__cta:hover {
+  background: var(--white);
+  color: var(--black);
+  border-color: var(--white) !important;
+  box-shadow: 4px 4px 0 var(--purple);
+  transform: translate(-1px, -2px);
+}
+
+@media (max-width: 900px) {
+  .header__auth {
+    margin: 10px 0 0;
+    padding: 12px 0 0;
+    border-left: none;
+    border-top: 2px dashed rgba(255, 255, 255, 0.25);
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .header__cta {
+    text-align: center;
+  }
+}
+
+/* ============================================================
+   Crew card is now a link → subtle "View profile" affordance
+   ============================================================ */
+a.ab-member {
+  text-decoration: none;
+  color: inherit;
+}
+
+.ab-member__view {
+  margin-top: 8px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--purple-soft);
+  opacity: 0;
+  transition: opacity 0.25s ease, transform 0.25s var(--ease-pop);
+  transform: translateX(-4px);
+}
+
+a.ab-member:hover .ab-member__view,
+a.ab-member:focus-visible .ab-member__view {
+  opacity: 1;
+  transform: translateX(0);
+}

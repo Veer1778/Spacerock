@@ -1,0 +1,13 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "client/dist",
+  "installCommand": "npm install",
+  "framework": null,
+  "rewrites": [
+    { "source": "/api/home", "destination": "/api/home" },
+    { "source": "/api/articles", "destination": "/api/articles" },
+    { "source": "/api/articles/:id", "destination": "/api/articles?id=:id" },
+    { "source": "/api/category/:slug", "destination": "/api/category?slug=:slug" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}

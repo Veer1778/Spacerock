@@ -78,5 +78,3 @@ falls back to `server/data.js` instead of breaking.
 
 `POST /api/newsletter { email }` — validates and appends to
 `server/subscribers.json`. Swap for Mailchimp/Buttondown/Listmonk when ready.
-# Spacerock
-# Spacerock

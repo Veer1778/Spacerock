@@ -1,14 +1,14 @@
 {
   "name": "spacerock",
   "version": "1.0.0",
-  "description": "SpaceRock — stories from the edge of the universe. React + Node website for spacerock.club",
+  "description": "SpaceRock \u2014 stories from the edge of the universe. React + Node website for spacerock.club",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "concurrently -n server,client -c magenta,cyan \"npm run server\" \"npm run client\"",
     "server": "node server/index.js",
     "client": "npm run dev --prefix client",
-    "build": "npm run build --prefix client",
+    "build": "npm install --prefix client && npm run build --prefix client",
     "start": "NODE_ENV=production node server/index.js",
     "postinstall": "npm install --prefix client"
   },

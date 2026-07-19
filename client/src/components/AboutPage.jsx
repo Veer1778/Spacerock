@@ -14,13 +14,19 @@ const COMMANDS = {
     "FREQUENCY  Weekly.",
     "SIGNAL     Strong.",
   ],
+  stack: [
+    "FRONTEND   React + Vite",
+    "BACKEND    Node + Express",
+    "CMS        WordPress, headless",
+    "DESIGN     Neobrutalism, dark",
+  ],
   principles: [
     "01  No clickbait.",
     "02  Fact first.",
     "03  Explain, don't confuse.",
     "04  Quality over speed.",
   ],
-  contact: ["MAIL       blog@spacerock.club", "ORBIT      spacerock.club"],
+  contact: ["MAIL       veer@spacerock.club", "ORBIT      spacerock.club"],
 };
 
 function Terminal() {
@@ -139,6 +145,15 @@ const PRINCIPLES = [
   { icon: "◆", title: "Quality over speed", desc: "We'd rather be right on Saturday than wrong on Tuesday." },
 ];
 
+const JOURNEY = [
+  { year: "2025", icon: "🚀", text: "SpaceRock launches with a WordPress blog and one very stubborn founder." },
+  { year: "2026", icon: "🌐", text: "AI coverage expands — model launches, safety fights, the works." },
+  { year: "2026", icon: "⚛", text: "Physics Weekly begins. The universe files its first column." },
+  { year: "2026", icon: "🖥", text: "The site goes headless: React front, WordPress engine." },
+  { year: "2026", icon: "🪐", text: "The crew grows to three writers." },
+  { year: "NEXT", icon: "✦", text: "The future is the next frontier. We'll be there early." },
+];
+
 function initials(name) {
   return name.split(" ").map((w) => w[0]).slice(0, 2).join("");
 }
@@ -187,9 +202,9 @@ export default function AboutPage() {
         <section>
           <span className="ab-label">By the numbers</span>
           <div className="ab-stats">
-            <Stat to={30} suffix="+" label="Articles published" />
-            <Stat to={3} label="Core topics" />
-            <Stat to={334} label="Cups of coffee drank" />
+            <Stat to={120} suffix="+" label="Articles published" />
+            <Stat to={4} label="Core topics" />
+            <Stat to={52} label="Issues a year" />
             <div className="ab-stat">
               <strong>∞</strong>
               <span>Curiosity level</span>
@@ -242,7 +257,29 @@ export default function AboutPage() {
                   <span aria-hidden="true">{p.icon}</span>
                   <strong>{p.title}</strong>
                 </div>
-                <p className="">{p.desc}</p>
+                <p className="ab-principle__desc">{p.desc}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      </Reveal>
+
+      {/* ---------- Journey (scrollable) ---------- */}
+      <Reveal>
+        <section>
+          <div className="ab-journey-head">
+            <span className="ab-label">Our journey</span>
+            <div className="section-head__nav">
+              <button className="tray-arrow" aria-label="Scroll back" onClick={() => scrollJourney(-1)}>←</button>
+              <button className="tray-arrow" aria-label="Scroll forward" onClick={() => scrollJourney(1)}>→</button>
+            </div>
+          </div>
+          <div className="ab-journey" ref={journeyRef}>
+            {JOURNEY.map((j, i) => (
+              <div key={i} className="ab-stop">
+                <strong className="ab-stop__year">{j.year}</strong>
+                <span className="ab-stop__icon" aria-hidden="true">{j.icon}</span>
+                <p>{j.text}</p>
               </div>
             ))}
           </div>

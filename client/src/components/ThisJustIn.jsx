@@ -5,6 +5,11 @@ import Thumb from "./Thumb.jsx";
  * Horizontal carousel: arrows scroll the rail by exactly one card.
  * No card replacement, no re-render — smooth native scroll.
  */
+export function Stripes() {
+  return (
+    <div className="section-rule" aria-hidden="true" />
+  );
+}
 export default function ThisJustIn({ tidbits }) {
   const railRef = useRef(null);
 

@@ -80,6 +80,27 @@ export default function PostPage({ id, articles }) {
 
   const { lede, body } = splitLede(post.content);
 
+  // Load Twitter/X widgets when the body contains a tweet embed.
+  useEffect(() => {
+    if (!body || !/twitter-tweet|platform\.twitter\.com/.test(body)) return;
+    const load = () => window.twttr?.widgets?.load();
+    if (window.twttr?.widgets) {
+      load();
+      return;
+    }
+    let script = document.getElementById("twitter-wjs");
+    if (!script) {
+      script = document.createElement("script");
+      script.id = "twitter-wjs";
+      script.src = "https://platform.twitter.com/widgets.js";
+      script.async = true;
+      script.onload = load;
+      document.body.appendChild(script);
+    } else {
+      script.addEventListener("load", load, { once: true });
+    }
+  }, [body]);
+
   const copyLink = () => {
     navigator.clipboard?.writeText(window.location.href).then(() => {
       setCopied(true);
@@ -109,7 +130,13 @@ export default function PostPage({ id, articles }) {
           <h1 className="post__title">{post.title}</h1>
           <div className="post__meta-row">
             <span className="post__date">{post.dateFormatted || post.date}</span>
-            <span className="post__author">
+            <a
+              className="post__author"
+              href={post.author?.profileUrl || "#"}
+              target={post.author?.profileUrl ? "_blank" : undefined}
+              rel="noreferrer"
+              title={post.author?.name ? `View ${post.author.name}'s profile` : ""}
+            >
               {post.author?.avatar ? (
                 <img className="post__avatar" src={post.author.avatar} alt="" />
               ) : (
@@ -122,7 +149,7 @@ export default function PostPage({ id, articles }) {
                 </span>
               )}
               {post.author?.name || "SpaceRock"}
-            </span>
+            </a>
           </div>
         </div>
       </div>

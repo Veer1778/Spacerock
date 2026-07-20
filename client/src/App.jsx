@@ -9,6 +9,9 @@ import CategoryPage from "./components/CategoryPage.jsx";
 import AboutPage from "./components/AboutPage.jsx";
 import PrivacyPage from "./components/PrivacyPage.jsx";
 import PostPage from "./components/PostPage.jsx";
+import AuthorPage from "./components/AuthorPage.jsx";
+import AuthPage from "./components/AuthPage.jsx";
+import DashboardPage from "./components/DashboardPage.jsx";
 import Reveal from "./components/Reveal.jsx";
 import Ticker from "./components/Ticker.jsx";
 
@@ -23,6 +26,11 @@ function parseRoute() {
     return { page: "category", slug: decodeURIComponent(parts[1]) };
   if (parts[0] === "post" && parts[1])
     return { page: "post", id: decodeURIComponent(parts[1]) };
+  if (parts[0] === "author" && parts[1])
+    return { page: "author", slug: decodeURIComponent(parts[1]) };
+  if (parts[0] === "login") return { page: "login" };
+  if (parts[0] === "signup") return { page: "signup" };
+  if (parts[0] === "dashboard") return { page: "dashboard" };
   if (parts[0] === "about") return { page: "about" };
   if (parts[0] === "privacy") return { page: "privacy" };
   return { page: "home" };
@@ -128,6 +136,14 @@ export default function App() {
     content = <CategoryPage slug={route.slug} articles={articles} />;
   } else if (route.page === "post") {
     content = <PostPage id={route.id} articles={articles} />;
+  } else if (route.page === "author") {
+    content = <AuthorPage slug={route.slug} />;
+  } else if (route.page === "login") {
+    content = <AuthPage mode="login" />;
+  } else if (route.page === "signup") {
+    content = <AuthPage mode="signup" />;
+  } else if (route.page === "dashboard") {
+    content = <DashboardPage />;
   } else if (route.page === "about") {
     content = <AboutPage />;
   } else if (route.page === "privacy") {

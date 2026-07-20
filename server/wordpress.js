@@ -10,7 +10,7 @@ import {
 } from "./data.js";
 
 const wpApiUrl = () =>
-  (process.env.WP_API_URL || "https://spacerock.club/wp-json/wp/v2").replace(/\/$/, "");
+  (process.env.WP_API_URL || "https://cms.spacerock.club/wp-json/wp/v2").replace(/\/$/, "");
 
 const CACHE_TTL_MS = 5 * 60 * 1000;
 
@@ -80,7 +80,7 @@ function postAuthor(post) {
     slug: a?.slug || null,
     avatar: a?.avatar_urls?.["48"] || a?.avatar_urls?.["96"] || null,
     // Ultimate Member profile URL — the account system serves user pages at /user/<slug>/
-    profileUrl: a?.slug ? `https://spacerock.club/user/${a.slug}/` : null,
+    profileUrl: a?.slug ? `https://cms.spacerock.club/user/${a.slug}/` : null,
   };
 }
 

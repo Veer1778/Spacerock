@@ -8,6 +8,7 @@ import {
   getHomePayload,
   getPostBySlug,
   getCategoryPosts,
+  getAuthor,
 } from "./wordpress.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -49,6 +50,12 @@ app.get("/api/articles", async (req, res) => {
   res.json(
     articles.filter((a) => a.tags.some((x) => x.toLowerCase().includes(t)))
   );
+});
+
+app.get("/api/author/:slug", async (req, res) => {
+  const author = await getAuthor(req.params.slug);
+  if (!author) return res.status(404).json({ error: "Author not found" });
+  res.json(author);
 });
 
 app.get("/api/category/:slug", async (req, res) => {

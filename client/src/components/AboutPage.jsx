@@ -249,7 +249,7 @@ export default function AboutPage() {
                   <span aria-hidden="true">{p.icon}</span>
                   <strong>{p.title}</strong>
                 </div>
-                <p className="ab-principle__desc">{p.desc}</p>
+                <p className="">{p.desc}</p>
               </div>
             ))}
           </div>

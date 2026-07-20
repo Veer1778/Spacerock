@@ -8,14 +8,6 @@ const NAV = [
   { label: "About", href: "#/about" },
 ];
 
-// Ultimate Member endpoints on your WordPress. Nextend Social Login integrates
-// into the same UM Login form — the Google button appears there.
-const UM = {
-  login: "https://cms.spacerock.club/login/",
-  register: "https://cms.spacerock.club/register/",
-  account: "https://cms.spacerock.club/account/",
-};
-
 export default function Header() {
   const [open, setOpen] = useState(false);
 
@@ -44,14 +36,14 @@ export default function Header() {
           <div className="header__auth">
             <a
               className="header__link header__link--auth"
-              href={UM.login}
+              href="#/login"
               onClick={() => setOpen(false)}
             >
               Log in
             </a>
             <a
               className="header__link header__cta"
-              href={UM.register}
+              href="#/signup"
               onClick={() => setOpen(false)}
             >
               Sign up

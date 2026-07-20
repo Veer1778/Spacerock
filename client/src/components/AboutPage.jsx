@@ -211,8 +211,6 @@ export default function AboutPage() {
                 key={m.name}
                 className="ab-member"
                 href={m.profile}
-                target="_blank"
-                rel="noreferrer"
                 style={{ "--tilt": `${m.tilt}deg` }}
               >
                 <div className="ab-member__photo">

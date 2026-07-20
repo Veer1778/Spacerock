@@ -239,7 +239,7 @@ export default function AboutPage() {
       </Reveal>
 
       {/* ---------- Principles (hover to reveal) ---------- */}
-      <Reveal>
+            <Reveal>
         <section>
           <span className="ab-label">Editorial principles</span>
           <div className="ab-principles">
@@ -249,7 +249,7 @@ export default function AboutPage() {
                   <span aria-hidden="true">{p.icon}</span>
                   <strong>{p.title}</strong>
                 </div>
-                <p {p.desc} </p>
+                <p className="ab-principle__desc">{p.desc}</p>
               </div>
             ))}
           </div>

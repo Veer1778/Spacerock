@@ -132,10 +132,8 @@ export default function PostPage({ id, articles }) {
             <span className="post__date">{post.dateFormatted || post.date}</span>
             <a
               className="post__author"
-              href={post.author?.profileUrl || "#"}
-              target={post.author?.profileUrl ? "_blank" : undefined}
-              rel="noreferrer"
-              title={post.author?.name ? `View ${post.author.name}'s profile` : ""}
+              href={post.author?.slug ? `#/author/${post.author.slug}` : "#/"}
+              title={post.author?.name ? `View ${post.author.name}'s stories` : ""}
             >
               {post.author?.avatar ? (
                 <img className="post__avatar" src={post.author.avatar} alt="" />

@@ -11,9 +11,9 @@ const NAV = [
 // Ultimate Member endpoints on your WordPress. Nextend Social Login integrates
 // into the same UM Login form — the Google button appears there.
 const UM = {
-  login: "https://spacerock.club/login/",
-  register: "https://spacerock.club/register/",
-  account: "https://spacerock.club/account/",
+  login: "https://cms.spacerock.club/login/",
+  register: "https://cms.spacerock.club/register/",
+  account: "https://cms.spacerock.club/account/",
 };
 
 export default function Header() {

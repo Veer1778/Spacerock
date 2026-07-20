@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getAuth } from "../auth.js";
 
 const NAV = [
   { label: "Home", href: "#/" },
@@ -10,6 +11,17 @@ const NAV = [
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const [auth, setAuth] = useState(getAuth());
+
+  useEffect(() => {
+    const sync = () => setAuth(getAuth());
+    window.addEventListener("sr-auth-change", sync);
+    window.addEventListener("storage", sync);
+    return () => {
+      window.removeEventListener("sr-auth-change", sync);
+      window.removeEventListener("storage", sync);
+    };
+  }, []);
 
   return (
     <header className="header">
@@ -34,20 +46,32 @@ export default function Header() {
           ))}
 
           <div className="header__auth">
-            <a
-              className="header__link header__link--auth"
-              href="#/login"
-              onClick={() => setOpen(false)}
-            >
-              Log in
-            </a>
-            <a
-              className="header__link header__cta"
-              href="#/signup"
-              onClick={() => setOpen(false)}
-            >
-              Sign up
-            </a>
+            {auth ? (
+              <a
+                className="header__link header__cta"
+                href="#/dashboard"
+                onClick={() => setOpen(false)}
+              >
+                ⚙ {auth.name?.split(" ")[0] || "Dashboard"}
+              </a>
+            ) : (
+              <>
+                <a
+                  className="header__link header__link--auth"
+                  href="#/login"
+                  onClick={() => setOpen(false)}
+                >
+                  Log in
+                </a>
+                <a
+                  className="header__link header__cta"
+                  href="#/signup"
+                  onClick={() => setOpen(false)}
+                >
+                  Sign up
+                </a>
+              </>
+            )}
           </div>
         </nav>
 

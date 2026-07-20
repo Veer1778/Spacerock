@@ -1,10 +1,27 @@
-// Native-styled auth pages. Credentials are handled by WordPress
-// (Ultimate Member + Nextend Social Login) on cms.spacerock.club —
-// these pages give the flow a home inside the site.
-const CMS = "https://cms.spacerock.club";
+import { useState } from "react";
+import { login, CMS_URL } from "../auth.js";
 
 export default function AuthPage({ mode = "login" }) {
   const isLogin = mode === "login";
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
+  const [busy, setBusy] = useState(false);
+
+  async function submit(e) {
+    e?.preventDefault();
+    if (busy || !username || !password) return;
+    setBusy(true);
+    setError(null);
+    try {
+      await login(username, password);
+      window.location.hash = "#/dashboard";
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setBusy(false);
+    }
+  }
 
   return (
     <main className="auth">
@@ -20,14 +37,48 @@ export default function AuthPage({ mode = "login" }) {
           </h1>
           <p className="auth__sub">
             {isLogin
-              ? "Log in to comment, save stories and manage your profile."
+              ? "Log in to manage your profile and file stories."
               : "Create a free account — takes about a minute."}
           </p>
 
-          <a
-            className="auth__google"
-            href={`${CMS}/login/`}
-          >
+          {isLogin ? (
+            <form className="auth__form" onSubmit={submit}>
+              <label className="auth__field">
+                <span>Username or email</span>
+                <input
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  autoComplete="username"
+                  required
+                />
+              </label>
+              <label className="auth__field">
+                <span>Password</span>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  autoComplete="current-password"
+                  required
+                />
+              </label>
+
+              {error && <p className="auth__error">⚠ {error}</p>}
+
+              <button className="auth__submit" type="submit" disabled={busy}>
+                {busy ? "Authenticating…" : "Log in →"}
+              </button>
+            </form>
+          ) : (
+            <a className="auth__email" href={`${CMS_URL}/register/`}>
+              ✉ Create account with email
+            </a>
+          )}
+
+          <div className="auth__divider"><span>or</span></div>
+
+          <a className="auth__google" href={`${CMS_URL}/login/`}>
             <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
               <path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.6v3h3.9c2.3-2.1 3.5-5.2 3.5-8.8z"/>
               <path fill="#34A853" d="M12 24c3.2 0 6-1.1 8-2.9l-3.9-3c-1.1.7-2.5 1.2-4.1 1.2-3.1 0-5.8-2.1-6.7-5H1.2v3.1C3.2 21.3 7.3 24 12 24z"/>
@@ -35,15 +86,6 @@ export default function AuthPage({ mode = "login" }) {
               <path fill="#EA4335" d="M12 4.7c1.8 0 3.3.6 4.6 1.8l3.4-3.4C18 1.2 15.2 0 12 0 7.3 0 3.2 2.7 1.2 6.6l4.1 3.1c.9-2.9 3.6-5 6.7-5z"/>
             </svg>
             Continue with Google
-          </a>
-
-          <div className="auth__divider"><span>or</span></div>
-
-          <a
-            className="auth__email"
-            href={isLogin ? `${CMS}/login/` : `${CMS}/register/`}
-          >
-            ✉ Continue with email
           </a>
 
           <p className="auth__switch">
@@ -57,8 +99,8 @@ export default function AuthPage({ mode = "login" }) {
       </div>
 
       <p className="auth__note ab-mono">
-        // Authentication is handled securely on cms.spacerock.club. You&rsquo;ll
-        be sent back after signing in.
+        // Google sign-in completes on cms.spacerock.club, then log in here
+        with the same account.
       </p>
     </main>
   );

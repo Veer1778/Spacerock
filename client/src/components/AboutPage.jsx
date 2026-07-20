@@ -114,7 +114,7 @@ const TEAM = [
     role: "Founder · Writer · Builder",
     bio: "Designs it, codes it, writes it. Too many tabs open at all times.",
     img: "https://cms.spacerock.club/wp-content/uploads/2026/07/IMG20260528192932-scaled.jpg",
-    profile: "#/author/veersolanki",
+    profile: "https://www.spacerock.club/#/author/veer-solanki",
     tilt: -2,
   },
   {
@@ -122,7 +122,7 @@ const TEAM = [
     role: "Writer · Research",
     bio: "Chases the source until it talks. Allergic to secondhand hype.",
     img: "https://cms.spacerock.club/wp-content/uploads/2026/07/WhatsApp-Image-2025-11-18-at-21.58.30_14d03386-1.jpg",
-    profile: "#/author/nitaigarg",
+    profile: "https://www.spacerock.club/#/author/nitai-garg",
     tilt: 2,
   },
   {
@@ -130,7 +130,7 @@ const TEAM = [
     role: "Writer · Technology",
     bio: "Breaks things on purpose so the explainer is honest.",
     img: "https://cms.spacerock.club/wp-content/uploads/2026/07/WhatsApp-Image-2026-07-20-at-3.36.13-AM.jpeg",
-    profile: "#/author/aarushyadav",
+    profile: "https://www.spacerock.club/#/author/aarush-yadav",
     tilt: -1,
   },
 ];

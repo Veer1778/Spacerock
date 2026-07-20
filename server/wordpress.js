@@ -79,8 +79,6 @@ function postAuthor(post) {
     name: a?.name || "SpaceRock",
     slug: a?.slug || null,
     avatar: a?.avatar_urls?.["48"] || a?.avatar_urls?.["96"] || null,
-    // Ultimate Member profile URL — the account system serves user pages at /user/<slug>/
-    profileUrl: a?.slug ? `https://cms.spacerock.club/user/${a.slug}/` : null,
   };
 }
 
@@ -315,6 +313,34 @@ export async function getCategoryPosts(slug) {
     return posts.map((p) => ({ ...mapPost(p, 4), slot: "card" }));
   } catch (err) {
     console.warn(`Category fetch failed for "${slug}": ${err.message}`);
+    return null;
+  }
+}
+
+// Native author page data: user info + their posts, straight from WP.
+export async function getAuthor(slug) {
+  try {
+    const users = await wpFetch(`/users?slug=${encodeURIComponent(slug)}`);
+    const u = Array.isArray(users) ? users[0] : null;
+    if (!u) return null;
+    let posts = [];
+    try {
+      const p = await wpFetch(
+        `/posts?author=${u.id}&per_page=24&orderby=date&order=desc&_embed`
+      );
+      if (Array.isArray(p)) posts = p.map((x) => ({ ...mapPost(x, 4), slot: "card" }));
+    } catch {
+      /* author with no posts is fine */
+    }
+    return {
+      name: u.name,
+      slug: u.slug,
+      bio: stripHtml(u.description || ""),
+      avatar: u.avatar_urls?.["96"] || u.avatar_urls?.["48"] || null,
+      posts,
+    };
+  } catch (err) {
+    console.warn(`Author fetch failed for "${slug}": ${err.message}`);
     return null;
   }
 }

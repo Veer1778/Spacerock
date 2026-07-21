@@ -128,12 +128,9 @@ export default function App() {
 
   const { articles, tidbits, facts } = data;
 
-  // Google OAuth return: grab the token from the URL, then go to dashboard.
-  if (route.page === "auth-callback") {
-    const ok = ingestCallback();
-    window.location.hash = ok ? "#/dashboard" : "#/login";
-    return null;
-  }
+  // #/auth-callback is handled in main.jsx before mount; if we somehow land
+  // here, just fall through to a blank while the redirect completes.
+  if (route.page === "auth-callback") return null;
 
   let content;
   if (route.page === "category") {

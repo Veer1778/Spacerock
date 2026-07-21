@@ -153,7 +153,12 @@ export async function updateAccount(fields) {
  */
 export function googleLogin() {
   const cb = `${CMS}/?sr_oauth_callback=1`;
-  window.location.href = `${CMS}/wp-login.php?loginSocial=google&redirect=${encodeURIComponent(cb)}`;
+  // prompt=select_account forces Google to show the account picker every time
+  // instead of silently reusing the last-used Google account.
+  window.location.href =
+    `${CMS}/wp-login.php?loginSocial=google` +
+    `&prompt=select_account` +
+    `&redirect=${encodeURIComponent(cb)}`;
 }
 
 /**

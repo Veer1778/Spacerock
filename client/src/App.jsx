@@ -12,6 +12,7 @@ import PostPage from "./components/PostPage.jsx";
 import AuthorPage from "./components/AuthorPage.jsx";
 import AuthPage from "./components/AuthPage.jsx";
 import DashboardPage from "./components/DashboardPage.jsx";
+import AccountPage from "./components/AccountPage.jsx";
 import Reveal from "./components/Reveal.jsx";
 import Ticker from "./components/Ticker.jsx";
 
@@ -31,6 +32,7 @@ function parseRoute() {
   if (parts[0] === "login") return { page: "login" };
   if (parts[0] === "signup") return { page: "signup" };
   if (parts[0] === "dashboard") return { page: "dashboard" };
+  if (parts[0] === "account") return { page: "account" };
   if (parts[0] === "about") return { page: "about" };
   if (parts[0] === "privacy") return { page: "privacy" };
   return { page: "home" };
@@ -110,23 +112,15 @@ export default function App() {
 
   if (error) {
     return (
-      <div className="loading">
-        <p>
-          &gt;_ signal lost — {error}. Is the Node server running on port 5000?
-          <span>▌</span>
-        </p>
+      <div className="page-error">
+        <p>Couldn&rsquo;t load stories right now. Please try again in a moment.</p>
       </div>
     );
   }
 
   if (!data) {
-    return (
-      <div className="loading">
-        <p>
-          &gt;_ receiving transmission<span>▌</span>
-        </p>
-      </div>
-    );
+    // No loader — render nothing until content is ready.
+    return null;
   }
 
   const { articles, tidbits, facts } = data;
@@ -144,6 +138,8 @@ export default function App() {
     content = <AuthPage mode="signup" />;
   } else if (route.page === "dashboard") {
     content = <DashboardPage />;
+  } else if (route.page === "account") {
+    content = <AccountPage />;
   } else if (route.page === "about") {
     content = <AboutPage />;
   } else if (route.page === "privacy") {

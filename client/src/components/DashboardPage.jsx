@@ -2,10 +2,9 @@ import { useEffect, useState } from "react";
 import { getAuth, validate, fetchMe, logout, CMS_URL } from "../auth.js";
 
 const ACTIONS = [
-  { icon: "✏", title: "Edit profile", desc: "Update your name, bio, photo and links.", href: `${CMS_URL}/account/general/` },
-  { icon: "🔒", title: "Password & security", desc: "Change your password and login options.", href: `${CMS_URL}/account/password/` },
-  { icon: "🔔", title: "Notifications", desc: "Choose what SpaceRock emails you about.", href: `${CMS_URL}/account/notifications/` },
-  { icon: "📝", title: "Write for us", desc: "Pitch a story or file a draft from the CMS.", href: `${CMS_URL}/wp-admin/` },
+  { icon: "✏", title: "Edit profile", desc: "Update your name, bio, email and password.", href: "#/account" },
+  { icon: "👤", title: "My author page", desc: "See your public profile and every story you've filed.", href: "author" },
+  { icon: "📝", title: "Write for us", desc: "Pitch a story or file a draft.", href: `${CMS_URL}/wp-admin/post-new.php` },
 ];
 
 export default function DashboardPage() {
@@ -23,13 +22,7 @@ export default function DashboardPage() {
     })();
   }, []);
 
-  if (state === "checking") {
-    return (
-      <div className="loading">
-        <p>&gt;_ verifying credentials<span>▌</span></p>
-      </div>
-    );
-  }
+  if (state === "checking") return null;
 
   if (state === "out") {
     return (
@@ -75,11 +68,6 @@ export default function DashboardPage() {
           </div>
         </div>
         <div className="dash__id-actions">
-          {me?.slug && (
-            <a className="chip chip--action" href={`#/author/${me.slug}`}>
-              My author page →
-            </a>
-          )}
           <button
             className="chip"
             onClick={() => {
@@ -93,14 +81,24 @@ export default function DashboardPage() {
       </div>
 
       <div className="dash__grid">
-        {ACTIONS.map((a) => (
-          <a key={a.title} className="dash__card" href={a.href} target="_blank" rel="noreferrer">
+        {ACTIONS.map((a) => {
+          const href = a.href === "author" ? (me?.slug ? `#/author/${me.slug}` : "#/") : a.href;
+          const external = href.startsWith("http");
+          return (
+          <a
+            key={a.title}
+            className="dash__card"
+            href={href}
+            target={external ? "_blank" : undefined}
+            rel={external ? "noreferrer" : undefined}
+          >
             <span className="dash__icon" aria-hidden="true">{a.icon}</span>
             <strong>{a.title}</strong>
             <p>{a.desc}</p>
             <span className="dash__go" aria-hidden="true">→</span>
           </a>
-        ))}
+          );
+        })}
       </div>
     </main>
   );

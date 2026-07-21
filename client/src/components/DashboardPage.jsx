@@ -15,8 +15,14 @@ export default function DashboardPage() {
     (async () => {
       const auth = getAuth();
       if (!auth) return setState("out");
-      const ok = await validate();
-      if (!ok) return setState("out");
+      // Freshly minted tokens (Google callback) are trusted without a
+      // validate round-trip; consume the flag so later visits re-validate.
+      if (!auth.fresh) {
+        const ok = await validate();
+        if (!ok) return setState("out");
+      } else {
+        localStorage.setItem("sr_auth", JSON.stringify({ ...auth, fresh: false }));
+      }
       setState("in");
       setMe((await fetchMe()) || { name: auth.name, email: auth.email });
     })();

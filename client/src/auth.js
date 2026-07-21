@@ -151,18 +151,21 @@ export function googleLogin() {
  * stores the session, and returns true if a token was found.
  */
 export function ingestCallback() {
-  // Params live after the hash route: #/auth-callback?token=...&name=...
-  const hash = window.location.hash;
+  // The token can arrive either in the hash query (#/auth-callback?token=...)
+  // or, if the server used a real query string, in window.location.search.
+  const hash = window.location.hash || "";
   const qIndex = hash.indexOf("?");
-  if (qIndex === -1) return false;
-  const params = new URLSearchParams(hash.slice(qIndex + 1));
+  const raw = qIndex !== -1 ? hash.slice(qIndex + 1) : window.location.search.slice(1);
+  if (!raw) return false;
+  const params = new URLSearchParams(raw);
   const token = params.get("token");
   if (!token) return false;
   saveAuth({
-    token,
+    token: token.trim(),
     name: params.get("name") || "",
     email: params.get("email") || "",
     slug: params.get("slug") || "",
+    fresh: true, // just minted — dashboard can trust it without re-validating
   });
   return true;
 }

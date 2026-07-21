@@ -136,19 +136,33 @@ export async function updateAccount(fields) {
   return json;
 }
 
-/** Launch Google OAuth (Nextend) and return here afterwards. */
-export async function googleLogin() {
-  const redirect = window.location.origin + "/#/dashboard";
-  try {
-    const res = await fetch(`${SR}/google-url?redirect=${encodeURIComponent(redirect)}`);
-    const json = await res.json();
-    if (json.url) {
-      window.location.href = json.url;
-      return;
-    }
-  } catch {
-    /* fall through */
-  }
-  // Fallback: standard Nextend trigger
-  window.location.href = `${CMS}/wp-login.php?loginSocial=google`;
+/**
+ * Launch Google OAuth via Nextend. After Google, Nextend must be set to
+ * redirect to  {CMS}/?sr_oauth_callback=1  which mints a JWT and bounces
+ * back to  {SPA}/#/auth-callback?token=...  (handled by ingestCallback).
+ */
+export function googleLogin() {
+  const cb = `${CMS}/?sr_oauth_callback=1`;
+  window.location.href = `${CMS}/wp-login.php?loginSocial=google&redirect=${encodeURIComponent(cb)}`;
+}
+
+/**
+ * Called on the #/auth-callback route. Reads token+profile from the URL,
+ * stores the session, and returns true if a token was found.
+ */
+export function ingestCallback() {
+  // Params live after the hash route: #/auth-callback?token=...&name=...
+  const hash = window.location.hash;
+  const qIndex = hash.indexOf("?");
+  if (qIndex === -1) return false;
+  const params = new URLSearchParams(hash.slice(qIndex + 1));
+  const token = params.get("token");
+  if (!token) return false;
+  saveAuth({
+    token,
+    name: params.get("name") || "",
+    email: params.get("email") || "",
+    slug: params.get("slug") || "",
+  });
+  return true;
 }

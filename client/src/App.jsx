@@ -13,6 +13,7 @@ import AuthorPage from "./components/AuthorPage.jsx";
 import AuthPage from "./components/AuthPage.jsx";
 import DashboardPage from "./components/DashboardPage.jsx";
 import AccountPage from "./components/AccountPage.jsx";
+import { ingestCallback } from "./auth.js";
 import Reveal from "./components/Reveal.jsx";
 import Ticker from "./components/Ticker.jsx";
 
@@ -31,6 +32,7 @@ function parseRoute() {
     return { page: "author", slug: decodeURIComponent(parts[1]) };
   if (parts[0] === "login") return { page: "login" };
   if (parts[0] === "signup") return { page: "signup" };
+  if (parts[0] === "auth-callback") return { page: "auth-callback" };
   if (parts[0] === "dashboard") return { page: "dashboard" };
   if (parts[0] === "account") return { page: "account" };
   if (parts[0] === "about") return { page: "about" };
@@ -51,6 +53,7 @@ function useHashRoute() {
   return route;
 }
 
+// (auth callback handled below)
 export const slugify = (s) =>
   String(s)
     .toLowerCase()
@@ -124,6 +127,13 @@ export default function App() {
   }
 
   const { articles, tidbits, facts } = data;
+
+  // Google OAuth return: grab the token from the URL, then go to dashboard.
+  if (route.page === "auth-callback") {
+    const ok = ingestCallback();
+    window.location.hash = ok ? "#/dashboard" : "#/login";
+    return null;
+  }
 
   let content;
   if (route.page === "category") {

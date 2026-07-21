@@ -5,14 +5,15 @@ import NewsGrid from "./components/NewsGrid.jsx";
 import ThisJustIn from "./components/ThisJustIn.jsx";
 import FactStation from "./components/FactStation.jsx";
 import Footer from "./components/Footer.jsx";
-import CategoryPage from "./components/CategoryPage.jsx";
-import AboutPage from "./components/AboutPage.jsx";
-import PrivacyPage from "./components/PrivacyPage.jsx";
-import PostPage from "./components/PostPage.jsx";
-import AuthorPage from "./components/AuthorPage.jsx";
-import AuthPage from "./components/AuthPage.jsx";
-import DashboardPage from "./components/DashboardPage.jsx";
-import AccountPage from "./components/AccountPage.jsx";
+import { lazy, Suspense } from "react";
+const CategoryPage = lazy(() => import("./components/CategoryPage.jsx"));
+const AboutPage = lazy(() => import("./components/AboutPage.jsx"));
+const PrivacyPage = lazy(() => import("./components/PrivacyPage.jsx"));
+const PostPage = lazy(() => import("./components/PostPage.jsx"));
+const AuthorPage = lazy(() => import("./components/AuthorPage.jsx"));
+const AuthPage = lazy(() => import("./components/AuthPage.jsx"));
+const DashboardPage = lazy(() => import("./components/DashboardPage.jsx"));
+const AccountPage = lazy(() => import("./components/AccountPage.jsx"));
 import { ingestCallback } from "./auth.js";
 import Reveal from "./components/Reveal.jsx";
 import Ticker from "./components/Ticker.jsx";
@@ -54,6 +55,15 @@ function useHashRoute() {
 }
 
 // (auth callback handled below)
+// Fade out the instant splash from index.html.
+function hideSplash() {
+  const el = document.getElementById("sr-splash");
+  if (el && !el.classList.contains("sr-hide")) {
+    el.classList.add("sr-hide");
+    setTimeout(() => el.remove(), 600);
+  }
+}
+
 export const slugify = (s) =>
   String(s)
     .toLowerCase()
@@ -93,13 +103,22 @@ export default function App() {
   const [activeTopic, setActiveTopic] = useState(null);
 
   useEffect(() => {
+    // Hard cap: never show the splash longer than 6s.
+    const cap = setTimeout(hideSplash, 6000);
     fetch("/api/home")
       .then((r) => {
         if (!r.ok) throw new Error(`API responded ${r.status}`);
         return r.json();
       })
-      .then(setData)
-      .catch((e) => setError(e.message));
+      .then((d) => {
+        setData(d);
+        hideSplash();
+      })
+      .catch((e) => {
+        setError(e.message);
+        hideSplash();
+      })
+      .finally(() => clearTimeout(cap));
   }, []);
 
   // Topics arrive from the server ranked by usage. Normalize defensively:
@@ -187,7 +206,7 @@ export default function App() {
         key={route.page + (route.slug || route.id || "")}
         className="route-fade"
       >
-        {content}
+        <Suspense fallback={null}>{content}</Suspense>
       </div>
       <Footer topics={topics.slice(0, 6)} />
     </div>

@@ -27,6 +27,16 @@ function saveAuth(auth) {
 export function logout() {
   localStorage.removeItem(KEY);
   window.dispatchEvent(new Event("sr-auth-change"));
+  // Also end the WordPress session on the CMS so the next Google login
+  // shows the account picker instead of silently reusing the WP session.
+  // A hidden image ping hits wp-logout; it fails the nonce check but still
+  // clears most auth cookies. The dedicated endpoint below is the reliable one.
+  try {
+    const img = new Image();
+    img.src = `${CMS}/wp-json/spacerock/v1/logout?t=${Date.now()}`;
+  } catch {
+    /* best effort */
+  }
 }
 
 export async function login(username, password) {
